@@ -1,0 +1,21 @@
+{% load staticfiles %}
+
+<html>
+<head>
+    {% block stylesheets %}
+        <link href="{% static 'nsdocuments/bower_components/bootstrap/dist/css/bootstrap.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'nsdocuments/bower_components/bootstrap/dist/css/bootstrap-theme.css' %}" rel="stylesheet" type="text/css">
+    {% endblock stylesheets %}
+</head>
+
+<div class="content">
+    {% block content %}
+    {% endblock content %}
+</div>
+
+{% block javascripts %}
+    <script src="{% static "nsdocuments/bower_components/jquery/dist/jquery.js" %}"></script>
+    <script src="{% static "nsdocuments/bower_components/bootstrap/dist/js/bootstrap.js" %}"></script>
+    <script src="{% static "nsdocuments/bower_components/format/format.js" %}"></script>
+{% endblock javascripts %}
+</html>

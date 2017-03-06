@@ -1,0 +1,17 @@
+{% load djng_tags %}
+{#{% load crispy_forms_tags %}#}
+{% angularjs %}
+
+    <div style="width: 50%; text-align: center; margin: 0 auto;">
+
+        <formly-form model="$ctrl.document" fields="$ctrl.documentFields">
+            <button type="submit" class="btn btn-default" ng-click="$ctrl.onSubmit()">Submit</button>
+        </formly-form>
+
+        {#        {% crispy form form.helper %}#}
+
+    </div>
+
+    <div ui-view></div>
+
+{% endangularjs %}

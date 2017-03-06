@@ -1,0 +1,15 @@
+{
+  "name": "npm",
+  "homepage": "https://github.com/npm/npm",
+  "version": "4.4.0",
+  "_release": "4.4.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v4.4.0",
+    "commit": "3006f48b0979004d5a7239a582ace430cfa3d303"
+  },
+  "_source": "https://github.com/npm/npm.git",
+  "_target": "^4.4.0",
+  "_originalSource": "npm",
+  "_direct": true
+}

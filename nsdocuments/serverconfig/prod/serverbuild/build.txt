@@ -1,0 +1,54 @@
+ssh-keygen 
+sudo cp -f hosts /etc/
+sudo mkdir /var/www
+sudo apt-get install wget
+sudo apt-get install libcurl4-gnutls-dev libexpat1-dev gettext   libz-dev libssl-dev
+sudo apt-get install libtool pkg-config build-essential automake uuid-dev
+sudo apt-get install autoconf
+
+sudo apt-get install libpq-dev
+sudo apt-get install postgresql
+
+git clone git://git.kernel.org/pub/scm/git/git.git
+cd git
+make configure
+./configure --prefix=/usr/local
+make all
+
+wget http://repo.continuum.io/archive/Anaconda3-4.0.0-Linux-x86_64.sh
+chmod 775 Anaconda3-4.0.0-Linux-x86_64.sh 
+sudo ./Anaconda3-4.0.0-Linux-x86_64.sh 
+#conda create -n <app_env> anaconda
+#source activate <app_env>
+#sudo mkdir /var/www/<app_dir>
+#cd /var/www/<app_dir>
+pip install --upgrade pip
+pip install -r requirements.txt 
+
+wget http://download.redis.io/redis-stable.tar.gz
+tar xvzf redis-stable.tar.gz
+cd redis-stable
+make
+sudo make install 
+sudo mkdir /etc/redis
+sudo mkdir /var/redis
+sudo cp utils/redis_init_script /etc/init.d/redis_6379
+sudo cp redis.conf /etc/redis/6379.conf
+sudo mkdir /var/redis/6379
+#sudo vim /etc/redis/6379.conf 
+sudo update-rc.d redis_6379 defaults 
+sudo service redis_6379 start
+
+sudo apt-get install supervisor
+
+sudo mkdir /var/log/daphne
+sudo chown nsdata-django:nsdata-django -R /var/log/daphne
+
+sudo mkdir /var/log/celery
+sudo chown nsdata-django:nsdata-django -R /var/log/celery
+
+sudo apt-get install nginx
+sudo chown www-data:www-data -R /var/www/static
+sudo usermod -a -G www-data nsdata-django
+
+export DJANGO_SETTINGS_MODULE=nsdata.settings.prod

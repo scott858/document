@@ -1,0 +1,102 @@
+{% load djng_tags %}
+{% angularjs %}
+
+    <table ng-table="$ctrl.documentTableParams"
+           class="table table-condensed table-bordered table-striped editable-table"
+           ng-form="$ctrl.tableFormCtrl"
+           show-filter="true"
+           tracked-table="$ctrl.tableTracker">
+
+        <tr ng-repeat="row in $data track by row.id"
+            ng-form="rowForm"
+            tracked-table-row="row">
+
+            <td data-title="'ID'"
+                filter="{id: 'number'}"
+                sortable="'id'">
+
+                <a>{{ row.id }}</a>
+
+            </td>
+
+            <td data-title="'project'"
+                filter="{project__name: 'text'}"
+                sortable="'project__name'">
+
+                <a>{{ row.project }}</a>
+
+            </td>
+
+            <td data-title="'type'"
+                filter="{document_type__name: 'text'}"
+                sortable="'document_type__name'">
+
+                <a>{{ row.document_type }}</a>
+
+            </td>
+
+            <td data-title="'part number'"
+                filter="{part__name: 'number'}"
+                sortable="'part__name'">
+
+                <a>{{ row.part }}</a>
+
+            </td>
+
+            <td data-title="'concise description'"
+                filter="{concise_description: 'text'}">
+
+                <a>{{ row.concise_description }}</a>
+
+            </td>
+
+            <td data-title="'verbose description'"
+                filter="{verbose_description: 'text'}">
+
+                <a>{{ row.verbose_description }}</a>
+
+            </td>
+
+            <td data-title="'version'"
+                filter="{version: 'text'}">
+
+                <a>{{ row.version }}</a>
+
+            </td>
+
+            <td data-title="'document format'"
+                filter="{document_format__name: 'text'}">
+
+                <a>{{ row.document_format }}</a>
+
+            </td>
+
+            <td data-title="'filename'"
+                filter="{filename: 'text'}">
+
+                <a>{{ row.filename }}</a>
+
+            </td>
+
+            <td data-title="'filepath'"
+                filter="{filepath: 'text'}">
+
+                <a>{{ row.filepath }}</a>
+
+            </td>
+
+        </tr>
+
+    </table>
+
+    <div style="text-align: center;">
+        <a ui-sref="documentCreate"
+           type="button"
+           id="createDocument"
+           class="btn btn-success">
+            Create Document
+        </a>
+    </div>
+
+    <div ui-view></div>
+{% endangularjs %}
