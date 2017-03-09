@@ -6,7 +6,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>NS Data</title>
+    <title>NS Docs</title>
 
     <link href="{% static 'nsdocuments/bower_components/angular-ui-layout/src/ui-layout.css' %}" rel="stylesheet"
           type="text/css">
@@ -27,16 +27,60 @@
             height: 35px;
         }
 
+        .ns-background {
+            height: 100%;
+            width: 100%;
+        }
+
+        .eighties-purple {
+            background: #41295a; /* fallback for old browsers */
+            background: -webkit-linear-gradient(to left, #41295a, #2F0743); /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to left, #41295a, #2F0743); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        }
+
+        .shallow-space {
+            background: #232526; /* fallback for old browsers */
+            background: -webkit-linear-gradient(to left, #232526, #414345); /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to left, #232526, #414345); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        }
+
+        .deep-space {
+            background: #000000; /* fallback for old browsers */
+            background: -webkit-linear-gradient(to left, #000000, #434343); /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to left, #000000, #434343); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        }
+
+        .ns-table {
+            background-color: transparent;
+        }
+
+        .ns-header {
+            color: grey;
+        }
+
+        td {
+            text-align: center;
+        }
+
     </style>
 
 </head>
 
-<body style="height: 100%; width: 100%;">
+<body>
+<nav>
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand">
+                <img src="{% static 'nsdocuments/img/ns-icon.png' %}"/>
+            </a>
+        </div>
+        <h2 class="page-header ns-header">
+            NS Documents
+        </h2>
+    </div>
+</nav>
 
 {% angularjs %}
-
-    <h2 class="page-header"
-        style="height: 15%;">NS Documents</h2>
 
     <ui-view></ui-view>
 
@@ -76,7 +120,8 @@
     angular.module("app",
         ["ngResource", "ngWebSocket", "djng.forms", "ui.bootstrap",
             "ngAnimate", "djng.urls", "ngSanitize", "ngCsv", "formly", "ngTable",
-            "formlyBootstrap", "angularSpinner", "ui.router"])
+            "formlyBootstrap", "angularSpinner", "ui.router",
+            "app.forms", "app.tables", "app.services", "app.filters"])
         .config(function ($locationProvider, $httpProvider) {
 
             $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -87,17 +132,30 @@
             $resourceProvider.defaults.stripTrailingSlashes = false;
         })
         .config(function ($stateProvider, $urlRouterProvider) {
-            $urlRouterProvider.otherwise("/list");
+            $urlRouterProvider.otherwise("list");
 
             $stateProvider
-                .state("documentList", {
-                    url: "/list",
+                .state("app", {
+                    url: "/",
+                    template: '<div ui-view></div>',
+                    resolve: {
+                        projects: function (NsProjectService) {
+                            return NsProjectService.resolver();
+                        }
+                    }
+                })
+                .state("app.documentList", {
+                    url: "list",
                     component: 'documentTable',
                     bindings: {documents: 'documents'}
                 })
-                .state("documentCreate", {
-                    url: "/create",
-                    component: "documentForm"
+                .state("app.documentCreate", {
+                    url: "create",
+                    component: "documentForm",
+                })
+                .state("app.documentRevise", {
+                    url: "revise/:documentId",
+                    component: "documentForm",
                 })
         })
         .constant("websocketUrl", "{{ WEBSOCKET_URL }}")
@@ -107,6 +165,8 @@
 <script src="{% static 'nsdocuments/bower_components/angular-spinner/dist/angular-spinner.js' %}"></script>
 <script src="{% static 'documents/angularjs/components/nsdocumentTableNgTable.js' %}"></script>
 <script src="{% static 'documents/angularjs/components/nsdocumentForm.js' %}"></script>
+<script src="{% static 'documents/angularjs/components/nsdocumentServices.js' %}"></script>
+<script src="{% static 'documents/angularjs/components/nsdocumentFilters.js' %}"></script>
 
 </body>
 

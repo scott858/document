@@ -1,22 +1,16 @@
-var app = angular.module('app');
+var app = angular.module('app.tables', []);
 
 app.component("documentTable", {
-    bindings: {documents: '<'},
+    bindings: {
+        documentId: "<"
+    },
     templateUrl: 'partials/documents/table',
-    controller: function ($log, $http, djangoUrl, $rootScope,
-                          NgTableParams, $resource) {
-        var ctrl = this;
+    controller: function ($log, $http, djangoUrl,
+                          NgTableParams, NsDocumentService,
+                          $state) {
+        var $ctrl = this;
 
-        ctrl.documentsResource = $resource('/api/v1/documents',
-            null,
-            {
-                query: {
-                    method: "GET",
-                    isArray: false
-                }
-            });
-
-        ctrl.documentTableParams = new NgTableParams(
+        $ctrl.documentTableParams = new NgTableParams(
             {
                 page: 1,
                 count: 10
@@ -36,17 +30,19 @@ app.component("documentTable", {
 
                     parsedParams['count'] = params.count();
                     parsedParams['page'] = params.page();
-                    return ctrl.documentsResource
-                        .query(parsedParams)
-                        .$promise.then(function (data) {
-                            params.total(data.count);
-                            return data.results;
-                        }, function (res) {
-                            $log.warn(res)
-                        });
+                    return NsDocumentService.getDocumentPromise(parsedParams, params);
                 }
             }
         );
+
+        $ctrl.add = function (number1, number2) {
+            return number1 + number2;
+        };
+
+        $ctrl.revise = function (documentId) {
+            $log.info(documentId);
+            $state.go('revise', {documentId: documentId});
+        }
 
     }
 });

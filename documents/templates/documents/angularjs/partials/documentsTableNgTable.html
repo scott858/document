@@ -11,78 +11,87 @@
             ng-form="rowForm"
             tracked-table-row="row">
 
-            <td data-title="'ID'"
-                filter="{id: 'number'}"
-                sortable="'id'">
-
-                <a>{{ row.id }}</a>
-
-            </td>
+            {#            <td data-title="'ID'"#}
+            {#                filter="{id: 'number'}"#}
+            {#                sortable="'id'">#}
+            {##}
+            {#                <span>{{ row.id }}</span>#}
+            {##}
+            {#            </td>#}
 
             <td data-title="'project'"
                 filter="{project__name: 'text'}"
-                sortable="'project__name'">
+                sortable="'project'">
 
-                <a>{{ row.project }}</a>
+                <span>{{ row.project }}</span>
 
             </td>
 
             <td data-title="'type'"
                 filter="{document_type__name: 'text'}"
-                sortable="'document_type__name'">
+                sortable="'document_type'">
 
-                <a>{{ row.document_type }}</a>
+                <span>{{ row.document_type }}</span>
 
             </td>
 
-            <td data-title="'part number'"
-                filter="{part__name: 'number'}"
-                sortable="'part__name'">
+            <td data-title="'document number'"
+                filter="{document: 'number'}"
+                sortable="'document'">
 
-                <a>{{ row.part }}</a>
+                {% verbatim %}
+                <span>{{ row.document_id|documentIdFilter }}</span>
+                {% endverbatim %}
 
             </td>
 
             <td data-title="'concise description'"
                 filter="{concise_description: 'text'}">
 
-                <a>{{ row.concise_description }}</a>
+                <span>{{ row.concise_description }}</span>
 
             </td>
 
-            <td data-title="'verbose description'"
-                filter="{verbose_description: 'text'}">
+            <td data-title="'revision'"
+                filter="{revision: 'text'}">
 
-                <a>{{ row.verbose_description }}</a>
-
-            </td>
-
-            <td data-title="'version'"
-                filter="{version: 'text'}">
-
-                <a>{{ row.version }}</a>
+                <span>{{ row.revision }}</span>
 
             </td>
 
             <td data-title="'document format'"
                 filter="{document_format__name: 'text'}">
 
-                <a>{{ row.document_format }}</a>
+                <span>{{ row.document_format }}</span>
 
             </td>
 
             <td data-title="'filename'"
-                filter="{filename: 'text'}">
+                filter="{filename: 'text'}"
+                sortable="'filename'">
 
-                <a>{{ row.filename }}</a>
+                <span>{{ row.filename }}</span>
 
             </td>
 
-            <td data-title="'filepath'"
-                filter="{filepath: 'text'}">
+            {#            <td data-title="'verbose description'"#}
+            {#                filter="{verbose_description: 'text'}">#}
+            {##}
+            {#                <span>{{ row.verbose_description }}</span>#}
+            {##}
+            {#            </td>#}
 
-                <a>{{ row.filepath }}</a>
+            {#            <td data-title="'filepath'"#}
+            {#                filter="{filepath: 'text'}">#}
+            {##}
+            {#                <span>{{ row.filepath }}</span>#}
+            {##}
+            {#            </td>#}
 
+            <td data-title="'revise'">
+                <a ui-sref="app.documentRevise({documentId: row.document_id})" class="btn btn-primary btn-sm">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </a>
             </td>
 
         </tr>
@@ -90,11 +99,11 @@
     </table>
 
     <div style="text-align: center;">
-        <a ui-sref="documentCreate"
+        <a ui-sref="app.documentCreate"
            type="button"
            id="createDocument"
-           class="btn btn-success">
-            Create Document
+           class="btn btn-default">
+            Create New Document
         </a>
     </div>
 

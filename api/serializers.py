@@ -8,12 +8,6 @@ class NsProjectSerializer(serializers.ModelSerializer):
         fields = ('id', 'name')
 
 
-class NsPartSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = documents.models.NsPart
-        fields = ('id', 'name', 'number')
-
-
 class NsDocumentTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = documents.models.NsDocumentType
@@ -23,29 +17,35 @@ class NsDocumentTypeSerializer(serializers.ModelSerializer):
 class NsDocumentFormatSerializer(serializers.ModelSerializer):
     class Meta:
         model = documents.models.NsDocumentFormat
-        fields = ('name', 'file_extension')
+        fields = ('id', 'name', 'file_extension')
 
 
-class NsDocumentUpdateSerializer(serializers.ModelSerializer):
+class NsDocumentReadOnlySerializer(serializers.ModelSerializer):
     class Meta:
+        fields = ('created', 'modified', '__str__',)
         model = documents.models.NsDocument
-        fields = ('id', 'project', 'document_type', 'part',
+        read_only_fields = ('created', 'modified', '__str__')
+
+
+class NsDocumentRevisionUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = documents.models.NsDocumentRevision
+        fields = ('id', 'project', 'document', 'document_type',
                   'concise_description', 'verbose_description',
-                  'major_version', 'minor_version',
                   'document_format', 'filename', 'filepath')
         read_only_fields = ('filename', 'filepath')
 
 
-class NsDocumentReadOnlySerializer(serializers.ModelSerializer):
+class NsDocumentRevisionReadOnlySerializer(serializers.ModelSerializer):
     project = serializers.StringRelatedField()
     document_type = serializers.StringRelatedField()
-    part = serializers.StringRelatedField()
+    document = serializers.StringRelatedField()
     document_format = serializers.StringRelatedField()
 
     class Meta:
-        model = documents.models.NsDocument
-        fields = ('id', 'project', 'document_type', 'part',
+        model = documents.models.NsDocumentRevision
+        fields = ('id', 'project', 'document_type',
+                  'document', 'document_id', 'revision',
                   'concise_description', 'verbose_description',
-                  'major_version', 'minor_version',
                   'document_format', 'filename', 'filepath')
         read_only_fields = ('filename', 'filepath')

@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
-from documents.forms import NsDocumentForm
+from documents.forms import NsDocumentRevisionForm
 
 
 class DocumentTableView(LoginRequiredMixin, TemplateView):
@@ -15,7 +15,7 @@ class DocumentFormView(LoginRequiredMixin, TemplateView):
 
 class DocumentFormCrispyView(FormView):
     template_name = 'documents/angularjs/partials/documentForm.html'
-    form_class = NsDocumentForm
+    form_class = NsDocumentRevisionForm
     success_url = 'nsdocuments:table'
 
     def form_valid(self, form):
