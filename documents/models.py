@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django_extensions.db.models import TimeStampedModel
 import datetime
 
@@ -15,6 +16,7 @@ class NsDocumentRevision(TimeStampedModel):
 
     document = models.ForeignKey('NsDocument', related_name='revisions')
     revision = models.PositiveIntegerField(default=0)
+    created_by = models.ForeignKey(User)
 
     project = models.ForeignKey('NsProject')
     document_type = models.ForeignKey('NsDocumentType')

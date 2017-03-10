@@ -32,7 +32,8 @@ class NsDocumentRevisionUpdateSerializer(serializers.ModelSerializer):
         model = documents.models.NsDocumentRevision
         fields = ('id', 'project', 'document', 'document_type',
                   'concise_description', 'verbose_description',
-                  'document_format', 'filename', 'filepath')
+                  'document_format', 'filename', 'filepath',
+                  'created_by')
         read_only_fields = ('filename', 'filepath')
 
 
@@ -41,11 +42,13 @@ class NsDocumentRevisionReadOnlySerializer(serializers.ModelSerializer):
     document_type = serializers.StringRelatedField()
     document = serializers.StringRelatedField()
     document_format = serializers.StringRelatedField()
+    created_by = serializers.StringRelatedField()
 
     class Meta:
         model = documents.models.NsDocumentRevision
         fields = ('id', 'project', 'document_type',
                   'document', 'document_id', 'revision',
                   'concise_description', 'verbose_description',
-                  'document_format', 'filename', 'filepath')
+                  'document_format', 'filename', 'filepath',
+                  'created_by')
         read_only_fields = ('filename', 'filepath')

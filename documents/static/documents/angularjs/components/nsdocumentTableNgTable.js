@@ -16,6 +16,7 @@ app.component("documentTable", {
                 count: 10
             },
             {
+                counts: [5, 10, 25],
                 filterDelay: 300,
                 getData: function (params) {
                     var parsedParams = {};

@@ -9,6 +9,7 @@ class NsDocumentRevisionFilter(filters.FilterSet):
     id = django_filters.CharFilter(name='id', lookup_expr='icontains')
     project__name = django_filters.CharFilter(name='project__name', lookup_expr='icontains')
 
+    document__id = django_filters.CharFilter(name='document__id', lookup_expr='icontains')
     document_type__name = django_filters.CharFilter(name='document_type__name', lookup_expr='icontains')
 
     document_format__name = django_filters.CharFilter(name='document_format__name', lookup_expr='icontains')
@@ -17,12 +18,17 @@ class NsDocumentRevisionFilter(filters.FilterSet):
     concise_description = django_filters.CharFilter(name='concise_description', lookup_expr='icontains')
     verbose_description = django_filters.CharFilter(name='verbose_description', lookup_expr='icontains')
 
+    revision = django_filters.CharFilter(name='revision', lookup_expr='icontains')
+
+    created_by__username = django_filters.CharFilter(name='created_by__username', lookup_expr='icontains')
+
     class Meta:
         model = documents.models.NsDocumentRevision
         fields = ('id', 'project__name',
-                  'document_type__name',
+                  'document_type__name', 'document__id',
                   'concise_description', 'verbose_description',
-                  'document_format__name', 'filename', 'filepath')
+                  'document_format__name', 'filename', 'filepath',
+                  'revision', 'created_by__username')
 
 
 class NsDocumentRevisionListCreateView(generics.ListCreateAPIView):
@@ -100,6 +106,8 @@ class NsDocumentListReadOnlyView(generics.ListCreateAPIView):
             existing_document_id = request.data['document_id']
         except Exception as e:
             existing_document_id = None
+
+        new_revision.created_by = request.user
 
         document = documents.models.NsDocument.objects.get_or_create(pk=existing_document_id)[0]
         latest_revision = 0

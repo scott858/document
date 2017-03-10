@@ -36,7 +36,7 @@
             </td>
 
             <td data-title="'document number'"
-                filter="{document: 'number'}"
+                filter="{document__id: 'number'}"
                 sortable="'document'">
 
                 {% verbatim %}
@@ -53,14 +53,17 @@
             </td>
 
             <td data-title="'revision'"
-                filter="{revision: 'text'}">
+                filter="{revision: 'number'}"
+                sortable="'revision'">
+
 
                 <span>{{ row.revision }}</span>
 
             </td>
 
             <td data-title="'document format'"
-                filter="{document_format__name: 'text'}">
+                filter="{document_format__name: 'text'}"
+                sortable="'document_format'">
 
                 <span>{{ row.document_format }}</span>
 
@@ -71,6 +74,14 @@
                 sortable="'filename'">
 
                 <span>{{ row.filename }}</span>
+
+            </td>
+
+            <td data-title="'created by'"
+                filter="{created_by__username: 'text'}"
+                sortable="'created_by'">
+
+                <span>{{ row.created_by }}</span>
 
             </td>
 
