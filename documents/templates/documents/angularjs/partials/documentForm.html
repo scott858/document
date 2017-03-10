@@ -6,6 +6,10 @@
 
         <form name="documentForm">
             <formly-form model="$ctrl.document" fields="$ctrl.documentFields">
+                <a ui-sref="app.documentList"
+                   class="btn btn-danger">
+                    Cancel
+                </a>
                 <button type="submit"
                         ng-disabled="documentForm.$invalid"
                         class="btn btn-default"
