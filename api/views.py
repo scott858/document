@@ -119,6 +119,7 @@ class NsDocumentListReadOnlyView(generics.ListCreateAPIView):
                 documents.models.NsDocumentOldRevision.objects.create(
                     document=revision.document,
                     revision=revision.revision,
+                    created_by=revision.created_by,
                     project=revision.project,
                     document_type=revision.document_type,
                     concise_description=revision.concise_description,

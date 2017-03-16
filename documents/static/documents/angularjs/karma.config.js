@@ -15,16 +15,16 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
-            '../js/angular.js',
-            '../js/ngmodules/angular-resource.js',
-            '../js/ui-bootstrap-tpls.js',
-            '../js/angular-animate.js',
-            '../js/plotly.js',
-            '../../../../experiments/static/experiments/js/lodash.js',
+            '../node_modules/angular/angular.js',
+            '../node_modules/angular-animate/angular-animate.js',
+            '../node_modules/angular-resource/angular-resource.js',
+            '../node_modules/angular-ui-bootstrap/dis/ui-bootstrap-tpls.js',
+            '../node_modules/dist/plotly.js',
+            '../node_modules/core.js',
             'tests/plottingMocks.js',
             'components/plotlyDataQuery.js',
             'components/plotlyPlot.js',
-            'tests/angular-mocks.js',
+            'node_modules/angular-mocks.js',
             'tests/*Spec.js'
         ],
 
@@ -63,7 +63,7 @@ module.exports = function (config) {
 
         // start these browsers
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: ['Chrome', 'Firefox'],
+        browsers: ['Chrome'],
 
 
         // Continuous Integration mode
