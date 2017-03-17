@@ -140,7 +140,7 @@ class NsDocumentTypeListCreateView(generics.ListCreateAPIView):
     """
     API endpoint allows document types to be edited.
     """
-    queryset = documents.models.NsDocumentType.objects.all().order_by('-id')
+    queryset = documents.models.NsDocumentType.objects.all().order_by('name')
     serializer_class = serializers.NsDocumentTypeSerializer
 
 
@@ -148,7 +148,7 @@ class NsDocumentFormatListCreateView(generics.ListCreateAPIView):
     """
     API endpoint allows document types to be edited.
     """
-    queryset = documents.models.NsDocumentFormat.objects.all().order_by("-id")
+    queryset = documents.models.NsDocumentFormat.objects.all().order_by("name")
     serializer_class = serializers.NsDocumentFormatSerializer
 
 
@@ -156,5 +156,5 @@ class NsProjectListCreateView(generics.ListCreateAPIView):
     """
     API endpoint allows projects to be edited.
     """
-    queryset = documents.models.NsProject.objects.all().order_by('-id')
+    queryset = documents.models.NsProject.objects.all().order_by('name')
     serializer_class = serializers.NsProjectSerializer

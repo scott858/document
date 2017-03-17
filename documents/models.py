@@ -43,13 +43,13 @@ class NsDocumentRevision(TimeStampedModel):
         return revision_number
 
     def format_concise_description(self):
-        self.concise_description = self.concise_description.title()
-        self.concise_description = ''.join(
-            e for e in self.concise_description if e.isalnum()
+        concise_description = self.concise_description.title()
+        concise_description = ''.join(
+            e for e in concise_description if e.isalnum()
         )
-        if len(self.concise_description) > self.CONCISE_DESCRIPTION_MAX_LENGTH:
-            self.concise_description = self.concise_description[:self.CONCISE_DESCRIPTION_MAX_LENGTH]
-        return self.concise_description
+        if len(concise_description) > self.CONCISE_DESCRIPTION_MAX_LENGTH:
+            concise_description = concise_description[:self.CONCISE_DESCRIPTION_MAX_LENGTH]
+        return concise_description
 
     def __str__(self):
         project_code = str(self.project.format_code())
@@ -117,7 +117,7 @@ class NsDocumentType(TimeStampedModel):
         return document_code
 
     def __str__(self):
-        return self.name
+        return self.name + '_' + self.format_code()
 
 
 class NsDocumentFormat(TimeStampedModel):
@@ -125,7 +125,7 @@ class NsDocumentFormat(TimeStampedModel):
     file_extension = models.CharField(max_length=15, unique=True)
 
     def __str__(self):
-        return self.name
+        return self.name + '_' + self.file_extension
 
 
 class NsProject(TimeStampedModel):
@@ -141,4 +141,4 @@ class NsProject(TimeStampedModel):
         return project_code
 
     def __str__(self):
-        return self.name
+        return self.name + '_' + self.format_code()

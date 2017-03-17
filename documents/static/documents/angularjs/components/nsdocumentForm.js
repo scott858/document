@@ -20,17 +20,22 @@ app.component('documentForm', {
             $ctrl.selectedDocument = $ctrl.documents[documentIndex];
             $ctrl.document = $ctrl.selectedDocument;
 
-            var projectIndex = _.findIndex($ctrl.selectionOptions.projects, ['name', $ctrl.selectedDocument.project]);
+            // var projectIndex = _.findIndex($ctrl.selectionOptions.projects, ['name', $ctrl.selectedDocument.project]);
+            var projectIndex = _.findIndex($ctrl.selectionOptions.projects, ['__str__', $ctrl.selectedDocument.project]);
             var project = $ctrl.selectionOptions.projects[projectIndex];
             $ctrl.document.project = project.id;
 
+            // var documentTypeIndex = _.findIndex($ctrl.selectionOptions.documentTypes,
+            //     ['name', $ctrl.selectedDocument.document_type]);
             var documentTypeIndex = _.findIndex($ctrl.selectionOptions.documentTypes,
-                ['name', $ctrl.selectedDocument.document_type]);
+                ['__str__', $ctrl.selectedDocument.document_type]);
             var documentType = $ctrl.selectionOptions.documentTypes[documentTypeIndex];
             $ctrl.document.document_type = documentType.id;
 
+            // var documentFormatIndex = _.findIndex($ctrl.selectionOptions.documentFormats,
+            //     ['name', $ctrl.selectedDocument.document_format]);
             var documentFormatIndex = _.findIndex($ctrl.selectionOptions.documentFormats,
-                ['name', $ctrl.selectedDocument.document_format]);
+                ['__str__', $ctrl.selectedDocument.document_format]);
             var documentFormat = $ctrl.selectionOptions.documentFormats[documentFormatIndex];
             $ctrl.document.document_format = documentFormat.id;
         }
@@ -49,7 +54,8 @@ app.component('documentForm', {
                     placeholder: 'project name',
                     required: true,
                     description: 'The name of the project most relevant to the content of this document.',
-                    labelProp: 'name',
+                    // labelProp: 'name',
+                    labelProp: '__str__',
                     valueProp: 'id',
                     options: $ctrl.selectionOptions.projects
 
@@ -62,7 +68,8 @@ app.component('documentForm', {
                     label: 'file type',
                     required: true,
                     description: 'Specify document type.',
-                    labelProp: 'name',
+                    // labelProp: 'name',
+                    labelProp: '__str__',
                     valueProp: 'id',
                     options: $ctrl.selectionOptions.documentTypes
                 },
@@ -77,7 +84,8 @@ app.component('documentForm', {
                     label: 'document format',
                     required: true,
                     description: 'Choose the format for you document.',
-                    labelProp: 'name',
+                    // labelProp: 'name',
+                    labelProp: '__str__',
                     valueProp: 'id',
                     options: $ctrl.selectionOptions.documentFormats
                 },
@@ -91,7 +99,8 @@ app.component('documentForm', {
                 templateOptions: {
                     label: 'concise description',
                     required: true,
-                    description: 'Be concise and use camelCaseLikeThis. This goes in file name so... be concise... Not like this description'
+                    description: 'Be concise (limit 32 characters not including spaces). Special characters and ' +
+                    'spaces will be removed in file name.'
                 },
                 expressionProperties: {
                     'templateOptions.disabled': '!model.document_format'
@@ -113,7 +122,8 @@ app.component('documentForm', {
 
         $ctrl.onSubmit = onSubmit;
 
-        var documentUrl = djangoUrl.reverse('api:documents');
+        // var documentUrl = djangoUrl.reverse('api:documents');
+        var documentUrl = '/api/v1/documents/';
         var DocumentResource = $resource(documentUrl);
 
         function onSubmit() {

@@ -5,9 +5,8 @@ app.component("documentTable", {
         documentId: "<"
     },
     templateUrl: 'partials/documents/table',
-    controller: function ($log, $http, djangoUrl,
-                          NgTableParams, NsDocumentService,
-                          $state) {
+    controller: function ($log, $http, NgTableParams,
+                          NsDocumentService, $state) {
         var $ctrl = this;
 
         $ctrl.documentTableParams = new NgTableParams(

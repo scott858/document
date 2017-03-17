@@ -37,6 +37,10 @@ TEMPLATES = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'django_python3_ldap.auth.LDAPBackend',
+]
+
 # SITE_ID = 1
 
 # Absolute path to the directory that holds media.
@@ -69,25 +73,16 @@ def get_secret(key, default=None, secrets=_secrets):
 
 
 HOST_IP = get_secret("HOST_IP")
-DEVICE_IP = get_secret("DEVICE_IP")
 REDIS_HOST = get_secret("REDIS_HOST")
 REDIS_PORT = get_secret('REDIS_PORT')
 CASSANDRA_HOST = get_secret("CASSANDRA_HOST")
 CASSANDRA_PORT = get_secret('CASSANDRA_PORT')
 SESSION_REDIS_HOST = REDIS_HOST
 SESSION_REDIS_PORT = REDIS_PORT
-DEVICE_SERVER_API_TOKEN = get_secret('DEVICE_SERVER_API_TOKEN', 'token')
-DEVICE_SERVER_API_URL = DEVICE_IP + '/api/v1'
 WEBSOCKET_URL = 'ws://' + HOST_IP + ':8000'
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = get_secret('SECRET_KEY')
-
-# Duo configuration.
-DUO_IKEY = get_secret("DUO_IKEY")
-DUO_SKEY = get_secret("DUO_SKEY")
-DUO_AKEY = get_secret("DUO_AKEY")
-DUO_HOST = get_secret("DUO_HOST")
 
 ALLOWED_HOSTS = []
 
@@ -95,10 +90,40 @@ PROJECT_APPS = (
     'documents',
 )
 
+LDAP_AUTH_URL = get_secret("LDAP_AUTH_URL")
+
+LDAP_AUTH_USE_TLS = True
+
+LDAP_AUTH_OBJECT_CLASS = 'organizationalPerson'
+LDAP_AUTH_SEARCH_BASE = 'OU=Users,OU=NS,DC=nsprivate,DC=local'
+
+LDAP_AUTH_USER_FIELDS = {
+    'username': 'sAMAccountName',
+    'first_name': 'givenName',
+    'last_name': 'sn',
+    'email': 'mail',
+}
+
+LDAP_AUTH_USER_LOOKUP_FIELDS = ('username',)
+
+LDAP_AUTH_CLEAN_USER_DATA = 'django_python3_ldap.utils.clean_user_data'
+
+LDAP_AUTH_SYNC_USER_RELATIONS = 'django_python3_ldap.utils.sync_user_relations'
+
+LDAP_AUTH_FORMAT_SEARCH_FILTERS = 'django_python3_ldap.utils.format_search_filters'
+
+LDAP_AUTH_FORMAT_USERNAME = 'django_python3_ldap.utils.format_username_active_directory'
+
+LDAP_AUTH_ACTIVE_DIRECTORY_DOMAIN = 'nsprivate'
+
+LDAP_AUTH_CONNECTION_USERNAME = get_secret("LDAP_AUTH_CONNECTION_USERNAME")
+LDAP_AUTH_CONNECTION_PASSWORD = get_secret("LDAP_AUTH_CONNECTION_PASSWORD")
+
 # Application definition
 
 INSTALLED_APPS = (
     'jet',
+    'asgi_redis',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -116,6 +141,7 @@ INSTALLED_APPS = (
     'channels',
     'crcmod',
     'redis',
+    'django_python3_ldap',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -204,5 +230,21 @@ DATABASES = {
         'HOST': get_secret('DATABASE_HOST', '127.0.0.1'),
         'PORT': get_secret('DATABASE_PORT', '5432'),
         'ATOMIC_REQUESTS': True,
+    }
+}
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django_python3_ldap': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        }
     }
 }

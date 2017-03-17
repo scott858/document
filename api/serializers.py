@@ -5,19 +5,19 @@ from rest_framework import serializers
 class NsProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = documents.models.NsProject
-        fields = ('id', 'name')
+        fields = ('id', 'name', '__str__')
 
 
 class NsDocumentTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = documents.models.NsDocumentType
-        fields = ('id', 'name', 'code')
+        fields = ('id', 'name', 'code', '__str__')
 
 
 class NsDocumentFormatSerializer(serializers.ModelSerializer):
     class Meta:
         model = documents.models.NsDocumentFormat
-        fields = ('id', 'name', 'file_extension')
+        fields = ('id', 'name', 'file_extension', '__str__')
 
 
 class NsDocumentReadOnlySerializer(serializers.ModelSerializer):

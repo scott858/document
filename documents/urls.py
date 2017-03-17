@@ -2,7 +2,6 @@ from django.conf.urls import url
 from django.contrib.auth.views import logout_then_login, login
 from django.views.generic.base import TemplateView
 
-from nsdocuments.views import NsDocumentsRedirectView
 from . import views
 
 urlpatterns = [

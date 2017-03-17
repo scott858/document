@@ -70,7 +70,7 @@ class NsProjectTestCase(TestCase):
 
     def test_str(self):
         project = models.NsProject.objects.first()
-        self.assertEqual(project.name, str(project))
+        self.assertEqual(project.name + '_' + project.format_code(), str(project))
 
 
 class NsDocumentFormatTestCase(TestCase):
@@ -104,7 +104,8 @@ class NsDocumentFormatTestCase(TestCase):
 
     def test_str(self):
         document_format = models.NsDocumentFormat.objects.first()
-        self.assertEqual(document_format.name, str(document_format))
+        self.assertEqual(document_format.name + '_' + document_format.file_extension
+                         , str(document_format))
 
 
 class NsDocumentTypeTestCase(TestCase):
@@ -138,7 +139,8 @@ class NsDocumentTypeTestCase(TestCase):
 
     def test_str(self):
         document_type = models.NsDocumentType.objects.first()
-        self.assertEqual(document_type.name, str(document_type))
+        self.assertEqual(document_type.name + '_' + document_type.format_code(),
+                         str(document_type))
 
     def test_document_type_code_is_correct_length(self):
         document_type = models.NsDocumentType.objects.first()
